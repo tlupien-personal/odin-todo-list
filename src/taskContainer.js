@@ -7,26 +7,8 @@ class TaskContainer {
     this.container = this.load();
   }
 
-  createTask(
-    title,
-    description,
-    dueDate,
-    priority,
-    isComplete,
-    notes,
-    parent,
-    subtasks = [],
-  ) {
-    const task = new TaskNode(
-      title,
-      description,
-      dueDate,
-      priority,
-      isComplete,
-      notes,
-      parent,
-      subtasks,
-    );
+  createTask(data) {
+    const task = TaskNode.fromData(data);
     this.container[task.id] = task;
     return task;
   }
