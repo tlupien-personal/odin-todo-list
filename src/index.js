@@ -1,10 +1,16 @@
 import "./style.css";
-import { TaskNode } from "./taskNode.js";
+import { TaskContainer } from "./taskContainer.js";
 
 // Testing Area
 
-const rootTask = new TaskNode("Root", null, null, null, null, null);
-const project1 = new TaskNode(
+// avoid duplicating this stuff in localStorage for now (testing)...
+localStorage.setItem("taskContainer", null);
+
+const taskContainer = new TaskContainer();
+
+const rootTask = taskContainer.createTask("ROOT");
+
+const project1 = taskContainer.createTask(
   "Project 1",
   "For testing purposes",
   new Date(2026, 3, 3),
@@ -12,7 +18,7 @@ const project1 = new TaskNode(
   false,
   "",
 );
-const project2 = new TaskNode(
+const project2 = taskContainer.createTask(
   "Project 2",
   "Also for testing purposes",
   new Date(2026, 4, 9),
@@ -21,7 +27,7 @@ const project2 = new TaskNode(
   "",
 );
 
-const task1 = new TaskNode(
+const task1 = taskContainer.createTask(
   "Task 1",
   "Fake Task",
   new Date(2026, 5, 12),
@@ -30,10 +36,13 @@ const task1 = new TaskNode(
   "Grandchild of root",
 );
 
-rootTask.addSubTask(project1);
-rootTask.addSubTask(project2);
+rootTask.addSubtask(project1);
+rootTask.addSubtask(project2);
 
-project1.addSubTask(task1);
+project1.addSubtask(task1);
 
-const test = JSON.stringify(rootTask, null, 2);
-console.log(test);
+task1.description = "The description has changed for this task!";
+
+console.log(taskContainer)
+
+taskContainer.save();
