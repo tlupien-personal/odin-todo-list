@@ -1,5 +1,6 @@
 class TaskNode {
-  constructor(
+  constructor({
+    id,
     title,
     description,
     dueDate,
@@ -7,9 +8,8 @@ class TaskNode {
     isComplete,
     notes,
     parent,
-    subtasks = [],
-  ) {
-    this.id = crypto.randomUUID();
+  }) {
+    this.id = id ?? crypto.randomUUID();
     this.title = title;
     this.description = description;
     this.dueDate = dueDate;
@@ -17,18 +17,12 @@ class TaskNode {
     this.isComplete = isComplete;
     this.notes = notes;
     this.parent = parent;
-    this.subtasks = subtasks;
-  }
-
-  static fromData(data) {
-    const instance = new TaskNode();
-    Object.assign(instance, data);
-    return instance
+    this.subtasks = [];
   }
 
   addSubtask(task) {
-    task.parent = this.id
-    this.subtasks.push(task.id);
+    task.parent = this.id;
+    this.subtasks.push(task);
   }
 }
 

@@ -2,20 +2,18 @@ import "./style.css";
 import { TaskContainer } from "./taskContainer.js";
 import { createTestTasks } from "./testData.js";
 
-localStorage.setItem("taskContainer", null);
+// Testing Area
+
+// localStorage.setItem("taskContainer", null);
 
 const taskContainer = new TaskContainer();
 
-const rootTask = createTestTasks(taskContainer);
+// let rootTask = createTestTasks();
 
-console.log(taskContainer.container);
+// console.log(rootTask);
 
-// this being like this is a problem...
-for (const taskId of rootTask.subtasks) {
-  try {
-    const task = taskContainer.readTask(taskId);
-    console.log(task.subtasks.length);
-  } catch (e) {
-    console.log(e);
-  }
-}
+// taskContainer.save(rootTask);
+
+const rootTask = taskContainer.load();
+
+console.log(rootTask);
