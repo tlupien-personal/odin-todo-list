@@ -1,6 +1,7 @@
 import "./style.css";
 import { TaskContainer } from "./taskContainer.js";
 import { createTestTasks } from "./testData.js";
+import { TaskDisplay } from "./taskDisplay.js";
 
 // Testing Area
 
@@ -16,4 +17,11 @@ const taskContainer = new TaskContainer();
 
 const rootTask = taskContainer.load();
 
-console.log(rootTask);
+// const child2 = rootTask.getSubtask(1);
+// console.log(child2);
+// rootTask.removeSubtask(rootTask.subtasks[0])
+const taskDisplay = new TaskDisplay(rootTask);
+taskDisplay.displayCurrent();
+// console.log(rootTask);
+
+// taskContainer.save(rootTask);

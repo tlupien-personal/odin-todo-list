@@ -30,6 +30,9 @@ class TaskContainer {
 
   load() {
     const data = JSON.parse(localStorage.getItem(TASK_CONTAINER_STORAGE_NAME));
+    if (data === null) {
+      return new TaskNode({title: "ROOT"});
+    }
     const rootIndex = data.findIndex((node) => !node.parent);
     const root = new TaskNode(data[rootIndex]);
     data.splice(rootIndex, 1);
@@ -37,17 +40,18 @@ class TaskContainer {
     return root;
   }
 
-  #toDataFormat(task) {
-    if (task.subtasks.length === 0) {
-      delete task.subtasks;
-      this.#buffer.push(task);
+  #toDataFormat(node) {
+    if (node.subtasks.length === 0) {
+      delete node.subtasks;
+      this.#buffer.push(node);
     } else {
-      while (task.subtasks.length !== 0) {
-        this.#toDataFormat(task.subtasks.pop());
+      while (node.subtasks.length !== 0) {
+        this.#toDataFormat(node.subtasks.pop());
       }
-      this.#toDataFormat(task);
+      this.#toDataFormat(node);
     }
   }
+  
   save(root) {
     this.#resetBuffer();
     const rootData = JSON.parse(JSON.stringify(root));

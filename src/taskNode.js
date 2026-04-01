@@ -20,9 +20,34 @@ class TaskNode {
     this.subtasks = [];
   }
 
-  addSubtask(task) {
-    task.parent = this.id;
-    this.subtasks.push(task);
+  addSubtask(node) {
+    node.parent = this.id;
+    this.subtasks.push(node);
+  }
+
+  removeSubtask(node) {
+    node.parent = null;
+    const subtaskIndex = this.subtasks.findIndex(
+      (subtask) => subtask.id === node.id,
+    );
+    this.subtasks.splice(subtaskIndex, 1);
+  }
+
+  getSubtask(idx) {
+    return this.subtasks[idx];
+  }
+
+  getParent(node) {
+    if (node.id === this.parent) {
+      return node;
+    } else if (node.subtasks.length !== 0) {
+      for (const child of node.subtasks) {
+        const result = this.getParent(child);
+        if (result) return result;
+      }
+    } else {
+      return null;
+    }
   }
 }
 
