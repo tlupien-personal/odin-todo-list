@@ -26,6 +26,11 @@ class TaskDisplay {
     this.display();
   }
 
+  #toggleComplete() {
+    this.current.isComplete = !this.current.isComplete;
+    this.display();
+  }
+
   #createIconButton(iconName, className, callback) {
     const button = document.createElement("div");
     button.classList.add("icon-btn");
@@ -84,22 +89,32 @@ class TaskDisplay {
     const upButton = this.#createIconButton("up", "up-btn", (e) =>
       this.#goUp(),
     );
-
     taskDetail.appendChild(upButton);
 
-    for (const [k, v] of Object.entries(task)) {
-      if (["id", "parent", "subtasks"].includes(k)) {
-        continue;
-      }
-      const p = document.createElement("p");
-      if (isDate(v)) {
-        p.innerText = format(v, DATE_FORMAT);
-      } else {
-        p.innerText = v;
-      }
+    const title = document.createElement("h1");
+    title.innerText = task.title;
+    taskDetail.appendChild(title);
 
-      taskDetail.appendChild(p);
-    }
+    const isComplete = this.#createIconButton(
+      this.current.isComplete ? "checked" : "box",
+      "check-btn",
+      (e) => this.#toggleComplete(),
+    );
+    taskDetail.appendChild(isComplete)
+
+    // for (const [k, v] of Object.entries(task)) {
+    //   if (["id", "parent", "subtasks", "title", "isComplete"].includes(k)) {
+    //     continue;
+    //   }
+    //   const p = document.createElement("p");
+    //   if (isDate(v)) {
+    //     p.innerText = format(v, DATE_FORMAT);
+    //   } else {
+    //     p.innerText = v;
+    //   }
+
+    //   taskDetail.appendChild(p);
+    // }
 
     return taskDetail;
   }
