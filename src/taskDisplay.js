@@ -28,6 +28,7 @@ class TaskDisplay {
 
   #createIconButton(iconName, className, callback) {
     const button = document.createElement("div");
+    button.classList.add("icon-btn");
     button.classList.add(className);
     const icon = createIcon(iconName);
     button.appendChild(icon);
@@ -80,8 +81,9 @@ class TaskDisplay {
     const taskDetail = document.createElement("div");
     taskDetail.classList.add("task-detail");
 
-    const upButton = this.#createIconButton(
-      "up", "up-btn", (e) => this.#goUp());
+    const upButton = this.#createIconButton("up", "up-btn", (e) =>
+      this.#goUp(),
+    );
 
     taskDetail.appendChild(upButton);
 
@@ -104,6 +106,7 @@ class TaskDisplay {
 
   display() {
     this.body.innerText = "";
+    this.current.orderSubtasks();
     if (this.current === this.root) {
       const h = document.createElement("h1");
       h.innerText = "Projects";
@@ -111,6 +114,11 @@ class TaskDisplay {
     } else {
       const taskDetail = this.#createTaskDetail(this.current);
       this.body.appendChild(taskDetail);
+      if (this.current.subtasks.length > 0) {
+        const subtaskHeading = document.createElement("h2");
+        subtaskHeading.innerText = "Subtasks";
+        this.body.appendChild(subtaskHeading);
+      }
     }
 
     const subtaskContainer = document.createElement("div");

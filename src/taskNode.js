@@ -1,4 +1,4 @@
-import { isDate } from "date-fns";
+import { compareAsc, isDate } from "date-fns";
 
 class TaskNode {
   constructor({
@@ -35,6 +35,10 @@ class TaskNode {
 
   getSubtask(idx) {
     return this.subtasks[idx];
+  }
+
+  orderSubtasks() {
+    this.subtasks.sort((a, b) => compareAsc(a.dueDate, b.dueDate));
   }
 
   getParent(node) {

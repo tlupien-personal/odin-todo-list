@@ -1,6 +1,6 @@
 #task-display {
-  width: 50%;
-  margin: 10% auto;
+  max-width: 500px;
+  margin: 5% auto;
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
@@ -21,20 +21,26 @@
   box-shadow: 2px 2px 4px #666;
   display: grid;
   gap: 10px;
-  grid-template-columns: 25px 1fr 1fr 25px 25px;
+  grid-template-columns: 25px 1fr 10ch 25px 25px;
   padding: 5px;
   text-align: center;
+  width: 100%;
+}
+
+.icon-btn {
+  width: 25px;
+  height: 25px;
+}
+
+.icon-btn:hover {
+  cursor: pointer;
 }
 
 .down-btn {
-  width: 25px;
-  height: 25px;
   fill: teal;
 }
 
 .up-btn {
-  width: 25px;
-  height: 25px;
   fill: coral;
 }
 
@@ -58,7 +64,5 @@
 }
 
 .delete-btn {
-  width: 25px;
-  height: 25px;
   fill: #666;
 }
