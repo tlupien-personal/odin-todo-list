@@ -1,3 +1,5 @@
+import { isDate } from "date-fns";
+
 class TaskNode {
   constructor({
     id,
@@ -12,7 +14,7 @@ class TaskNode {
     this.id = id ?? crypto.randomUUID();
     this.title = title;
     this.description = description;
-    this.dueDate = dueDate;
+    this.dueDate = isDate(dueDate) ? dueDate : new Date(dueDate);
     this.priority = priority;
     this.isComplete = isComplete;
     this.notes = notes;
@@ -25,12 +27,10 @@ class TaskNode {
     this.subtasks.push(node);
   }
 
-  removeSubtask(node) {
+  removeSubtask(idx) {
+    const node = this.getSubtask(idx);
     node.parent = null;
-    const subtaskIndex = this.subtasks.findIndex(
-      (subtask) => subtask.id === node.id,
-    );
-    this.subtasks.splice(subtaskIndex, 1);
+    this.subtasks.splice(idx, 1);
   }
 
   getSubtask(idx) {
