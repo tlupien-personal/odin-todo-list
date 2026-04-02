@@ -6,23 +6,24 @@ import { TaskDisplay } from "./taskDisplay.js";
 
 // Testing Area
 
-// localStorage.setItem("taskContainer", null);
-
 const taskContainer = new TaskContainer();
+const regenTestData = false;
 
-// let rootTask = createTestTasks();
+let rootTask;
 
-// console.log(rootTask);
+if (regenTestData) {
+  localStorage.setItem("taskContainer", null);
+  rootTask = createTestTasks();
+  taskContainer.save(rootTask);
+  rootTask = taskContainer.load();
+  // why twice? well, otherwise order is reversed
+  // not sure why + idc b/c at some point will implement
+  // priority + date order
+  taskContainer.save(rootTask);
+  rootTask = taskContainer.load();
+} else {
+  rootTask = taskContainer.load();
+}
 
-// rootTask = taskContainer.load();
-// taskContainer.save(rootTask);
-const rootTask = taskContainer.load();
-
-// const child2 = rootTask.getSubtask(1);
-// console.log(child2);
-// rootTask.removeSubtask(rootTask.subtasks[0])
 const taskDisplay = new TaskDisplay(rootTask);
 taskDisplay.display();
-// console.log(rootTask);
-
-// taskContainer.save(rootTask);

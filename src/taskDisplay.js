@@ -1,4 +1,7 @@
-import { createIcon } from "./util.js";
+import { createIcon, createPriorityIcon } from "./util.js";
+import { isDate, format } from "date-fns";
+
+const DATE_FORMAT = "MM/dd/yyyy";
 
 class TaskDisplay {
   body = document.querySelector("#task-display");
@@ -26,7 +29,7 @@ class TaskDisplay {
     title.innerText = task.title;
 
     const due = document.createElement("p");
-    due.innerText = task.dueDate;
+    due.innerText = format(task.dueDate, DATE_FORMAT);
 
     const buttonSlot = document.createElement("div");
     buttonSlot.classList.add("down-btn");
@@ -40,17 +43,19 @@ class TaskDisplay {
       );
     }
 
+    const priorityIcon = createPriorityIcon(task.priority);
 
+    taskCard.appendChild(buttonSlot);
     taskCard.appendChild(title);
     taskCard.appendChild(due);
-    taskCard.appendChild(buttonSlot);
+    taskCard.appendChild(priorityIcon);
 
     return taskCard;
   }
 
-  #createSubtaskCards(container, className) {
+  #createSubtaskCards(container) {
     this.current.subtasks.forEach((subtask, idx) => {
-      const taskCard = this.#createTaskCard(subtask, idx, className);
+      const taskCard = this.#createTaskCard(subtask, idx, "task-card");
       container.appendChild(taskCard);
     });
   }
@@ -72,7 +77,11 @@ class TaskDisplay {
         continue;
       }
       const p = document.createElement("p");
-      p.innerText = v;
+      if (isDate(v)) {
+        p.innerText = format(v, DATE_FORMAT);
+      } else {
+        p.innerText = v;
+      }
 
       taskDetail.appendChild(p);
     }
@@ -80,34 +89,21 @@ class TaskDisplay {
     return taskDetail;
   }
 
-  #displayCurrent() {
-    const taskDetail = this.#createTaskDetail(this.current);
-
-    const subtaskContainer = document.createElement("div");
-    subtaskContainer.classList.add("subtask-container");
-
-    this.#createSubtaskCards(subtaskContainer, "task-card");
-
-    this.body.appendChild(taskDetail);
-    this.body.appendChild(subtaskContainer);
-  }
-
-  #displayRoot() {
-    const projectGrid = document.createElement("div");
-    projectGrid.classList.add("project-grid");
-
-    this.#createSubtaskCards(projectGrid, "project-card");
-
-    this.body.appendChild(projectGrid);
-  }
-
   display() {
     this.body.innerText = "";
     if (this.current === this.root) {
-      this.#displayRoot();
+      const h = document.createElement("h1");
+      h.innerText = "Projects";
+      this.body.appendChild(h);
     } else {
-      this.#displayCurrent();
+      const taskDetail = this.#createTaskDetail(this.current);
+      this.body.appendChild(taskDetail);
     }
+
+    const subtaskContainer = document.createElement("div");
+    subtaskContainer.classList.add("subtask-container");
+    this.#createSubtaskCards(subtaskContainer);
+    this.body.appendChild(subtaskContainer);
   }
 }
 

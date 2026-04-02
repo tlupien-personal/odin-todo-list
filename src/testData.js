@@ -16,7 +16,7 @@ const createTestTask = function (level, number) {
     title: `Test Task L${level} #${number}`,
     description: randLipsum(5),
     dueDate: new Date(2026, randBetween(3, 11), randBetween(1, 30)),
-    priority: randBetween(1, 5),
+    priority: randBetween(1, 3),
     isComplete: false,
     notes: Math.random() > 2 / 3 ? randLipsum(1) : null,
   };
@@ -31,12 +31,12 @@ const createTestTasks = function () {
     let level = 1;
     const l1Task = createTestTask(level, i + 1);
     root.addSubtask(l1Task);
-    const nSubTasks = randBetween(0, 9);
+    const nSubTasks = randBetween(2, 9);
     for (let j = 0; j < nSubTasks; j++) {
       let level = 2;
       const l2Task = createTestTask(level, `${i + 1}.${j + 1}`);
       l1Task.addSubtask(l2Task);
-      const nSubSubTasks = randBetween(0, 4);
+      const nSubSubTasks = randBetween(0, 5);
       for (let k = 0; k < nSubSubTasks; k++) {
         let level = 3;
         const l3Task = createTestTask(level, `${i + 1}.${j + 1}.${k + 1}`)

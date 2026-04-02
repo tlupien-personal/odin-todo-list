@@ -20,4 +20,15 @@ const createIcon = function (iconName) {
   return icon;
 };
 
-export { createIcon };
+const createPriorityIcon = function (n) {
+  const div = document.createElement("div");
+  div.classList.add("priority-icon")
+  div.classList.add(`priority-${n}`)
+  for (let i = 0; i < n; i++) {
+    const icon = createIcon("priority");
+    div.appendChild(icon);
+  }
+  return div;
+};
+
+export { createIcon, createPriorityIcon };

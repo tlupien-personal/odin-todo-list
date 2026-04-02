@@ -1,6 +1,4 @@
 #task-display {
-  border: 2px solid black;
-  border-radius: 15px;
   width: 50%;
   margin: 10% auto;
   font-family: Arial, Helvetica, sans-serif;
@@ -10,17 +8,21 @@
   padding: 20px;
 }
 
-.project-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
+.subtask-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
 }
 
-.project-card {
+.task-card {
   border: 1px solid black;
   border-radius: 10px;
   box-shadow: 2px 2px 4px #666;
-  padding: 10px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 25px 1fr 1fr 25px 25px;
+  padding: 5px;
 }
 
 .down-btn {
@@ -32,5 +34,24 @@
 .up-btn {
   width: 25px;
   height: 25px;
+  fill: coral;
+}
+
+.priority-icon {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.priority-icon > * {
+  height: 25px;
+}
+
+.priority-1 {
+  fill: teal;
+}
+
+.priority-3 {
   fill: coral;
 }
