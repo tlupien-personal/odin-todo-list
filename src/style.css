@@ -1,3 +1,27 @@
-h1 {
-  color: red;
+#task-display {
+  border: 2px solid black;
+  border-radius: 15px;
+  width: 50%;
+  margin: 10% auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.project-card {
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px #666;
+  padding: 10px;
+}
+
+.down-btn {
+  width: 25px;
+  height: 25px;
+  fill: teal;
 }

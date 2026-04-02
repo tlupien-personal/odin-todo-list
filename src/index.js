@@ -1,3 +1,4 @@
+import "./reset.css";
 import "./style.css";
 import { TaskContainer } from "./taskContainer.js";
 import { createTestTasks } from "./testData.js";
@@ -21,7 +22,7 @@ const rootTask = taskContainer.load();
 // console.log(child2);
 // rootTask.removeSubtask(rootTask.subtasks[0])
 const taskDisplay = new TaskDisplay(rootTask);
-taskDisplay.displayCurrent();
+taskDisplay.display();
 // console.log(rootTask);
 
 // taskContainer.save(rootTask);

@@ -1,14 +1,21 @@
+import { createIcon } from "./util.js";
+
 class TaskDisplay {
-  display = document.querySelector("#task-display");
+  body = document.querySelector("#task-display");
 
   constructor(root) {
     this.root = root;
     this.current = root;
   }
 
-  #createTaskCard(task) {
+  #goDown(idx) {
+    this.current = this.current.subtasks[idx];
+    this.display();
+  }
+
+  #createTaskCard(task, idx, className) {
     const taskCard = document.createElement("div");
-    taskCard.classList.add("task-card");
+    taskCard.classList.add(className);
 
     const title = document.createElement("p");
     title.innerText = task.title;
@@ -16,10 +23,30 @@ class TaskDisplay {
     const due = document.createElement("p");
     due.innerText = task.dueDate;
 
+    const buttonSlot = document.createElement("div");
+    buttonSlot.classList.add("down-btn");
+    buttonSlot.setAttribute("data-child-index", idx);
+
+    if (task.subtasks.length > 0) {
+      const downIcon = createIcon("down");
+      buttonSlot.appendChild(downIcon);
+      buttonSlot.addEventListener("click", (e) =>
+        this.#goDown(e.currentTarget.getAttribute("data-child-index")),
+      );
+    }
+
     taskCard.appendChild(title);
     taskCard.appendChild(due);
+    taskCard.appendChild(buttonSlot);
 
     return taskCard;
+  }
+
+  #createSubtaskCards(container, className) {
+    this.current.subtasks.forEach((subtask, idx) => {
+      const taskCard = this.#createTaskCard(subtask, idx, className);
+      container.appendChild(taskCard);
+    });
   }
 
   #createTaskDetail(task) {
@@ -39,19 +66,34 @@ class TaskDisplay {
     return taskDetail;
   }
 
-  displayCurrent() {
+  #displayCurrent() {
     const taskDetail = this.#createTaskDetail(this.current);
 
     const subtaskContainer = document.createElement("div");
     subtaskContainer.classList.add("subtask-container");
 
-    this.current.subtasks.forEach((subtask) => {
-      const taskCard = this.#createTaskCard(subtask);
-      subtaskContainer.appendChild(taskCard);
-    });
+    this.#createSubtaskCards(subtaskContainer, "task-card");
 
-    this.display.appendChild(taskDetail);
-    this.display.appendChild(subtaskContainer);
+    this.body.appendChild(taskDetail);
+    this.body.appendChild(subtaskContainer);
+  }
+
+  #displayRoot() {
+    const projectGrid = document.createElement("div");
+    projectGrid.classList.add("project-grid");
+
+    this.#createSubtaskCards(projectGrid, "project-card");
+
+    this.body.appendChild(projectGrid);
+  }
+
+  display() {
+    this.body.innerText = "";
+    if (this.current === this.root) {
+      this.#displayRoot();
+    } else {
+      this.#displayCurrent();
+    }
   }
 }
 
