@@ -14,8 +14,8 @@ const taskContainer = new TaskContainer();
 
 // console.log(rootTask);
 
+// rootTask = taskContainer.load();
 // taskContainer.save(rootTask);
-
 const rootTask = taskContainer.load();
 
 // const child2 = rootTask.getSubtask(1);

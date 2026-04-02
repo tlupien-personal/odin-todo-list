@@ -9,7 +9,12 @@ class TaskDisplay {
   }
 
   #goDown(idx) {
-    this.current = this.current.subtasks[idx];
+    this.current = this.current.getSubtask(idx);
+    this.display();
+  }
+
+  #goUp() {
+    this.current = this.current.getParent(this.root);
     this.display();
   }
 
@@ -35,6 +40,7 @@ class TaskDisplay {
       );
     }
 
+
     taskCard.appendChild(title);
     taskCard.appendChild(due);
     taskCard.appendChild(buttonSlot);
@@ -53,8 +59,16 @@ class TaskDisplay {
     const taskDetail = document.createElement("div");
     taskDetail.classList.add("task-detail");
 
+    const buttonSlot = document.createElement("div");
+    buttonSlot.classList.add("up-btn");
+    const upIcon = createIcon("up");
+    buttonSlot.appendChild(upIcon);
+    buttonSlot.addEventListener("click", (e) => this.#goUp());
+
+    taskDetail.appendChild(buttonSlot);
+
     for (const [k, v] of Object.entries(task)) {
-      if (k === "subtasks") {
+      if (["id", "parent", "subtasks"].includes(k)) {
         continue;
       }
       const p = document.createElement("p");

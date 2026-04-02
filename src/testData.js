@@ -36,6 +36,12 @@ const createTestTasks = function () {
       let level = 2;
       const l2Task = createTestTask(level, `${i + 1}.${j + 1}`);
       l1Task.addSubtask(l2Task);
+      const nSubSubTasks = randBetween(0, 4);
+      for (let k = 0; k < nSubSubTasks; k++) {
+        let level = 3;
+        const l3Task = createTestTask(level, `${i + 1}.${j + 1}.${k + 1}`)
+        l2Task.addSubtask(l3Task);
+      }
     }
   }
 
