@@ -80,11 +80,8 @@ class TaskDisplay {
     const taskDetail = document.createElement("div");
     taskDetail.classList.add("task-detail");
 
-    const upButton = document.createElement("div");
-    upButton.classList.add("up-btn");
-    const upIcon = createIcon("up");
-    upButton.appendChild(upIcon);
-    upButton.addEventListener("click", (e) => this.#goUp());
+    const upButton = this.#createIconButton(
+      "up", "up-btn", (e) => this.#goUp());
 
     taskDetail.appendChild(upButton);
 
