@@ -101,21 +101,36 @@ class TaskDisplay {
     return taskDetail;
   }
 
+  #createHeading (isRoot) {
+    const headingContainer = document.createElement("div");
+    headingContainer.classList.add("heading-container")
+    const addButton = createIconButton("add", "add-btn", (e) => console.log("temp"))
+
+    let heading;
+    if (isRoot) {
+      heading = document.createElement("h1");
+      heading.innerText = "Projects";
+    } else {
+      heading = document.createElement("h3");
+      heading.innerText = "Subtasks"
+    }
+
+    headingContainer.appendChild(heading);
+    headingContainer.appendChild(addButton);
+
+    return headingContainer
+  }
+
   display(task, isRoot) {
     this.body.innerText = "";
-    if (isRoot) {
-      const h = document.createElement("h1");
-      h.innerText = "Projects";
-      this.body.appendChild(h);
-    } else {
+
+    if (!isRoot) {
       const taskDetail = this.#createTaskDetail(task);
       this.body.appendChild(taskDetail);
-      if (task.subtasks.length > 0) {
-        const subtaskHeading = document.createElement("h3");
-        subtaskHeading.innerText = "Subtasks";
-        this.body.appendChild(subtaskHeading);
-      }
     }
+
+    const heading = this.#createHeading(isRoot);
+    this.body.appendChild(heading);
 
     const subtaskContainer = document.createElement("div");
     subtaskContainer.classList.add("subtask-container");

@@ -108,6 +108,12 @@ textarea#notes {
   color: #444;
 }
 
+.heading-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .icon-btn {
   width: 25px;
   height: 25px;
@@ -117,11 +123,17 @@ textarea#notes {
   cursor: pointer;
 }
 
-.down-btn {
+.down-btn,
+.priority-3,
+.edit-btn,
+.save-btn,
+.add-btn {
   fill: teal;
 }
 
-.up-btn {
+.up-btn,
+.priority-1,
+.close-btn {
   fill: coral;
 }
 
@@ -137,27 +149,10 @@ textarea#notes {
   flex-shrink: 0;
 }
 
-.priority-1 {
-  fill: coral;
-}
-
-.priority-3 {
-  fill: teal;
-}
-
 .delete-btn {
   fill: #666;
 }
 
 .edit-btn {
-  fill: teal;
   justify-self: right;
-}
-
-.save-btn {
-  fill: teal;
-}
-
-.close-btn {
-  fill: coral;
 }
