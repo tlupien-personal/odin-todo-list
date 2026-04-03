@@ -16,7 +16,8 @@
 }
 
 .task-card,
-.task-detail {
+.task-detail,
+.task-form-container {
   border: 1px solid black;
   border-radius: 10px;
   box-shadow: 2px 2px 4px #666;
@@ -59,6 +60,52 @@
 .task-detail > p:last-child {
   color: #444;
   font-size: 0.8rem;
+}
+
+.task-form-container {
+  display: grid;
+  grid-template-rows: 25px 1fr;
+  grid-template-columns: 100%;
+  gap: 5px;
+  padding: 10px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+#task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0px 45px 30px 45px;
+}
+
+.form-chunk {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, calc(50% - 10px));
+  gap: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input,
+textarea {
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+textarea#notes {
+  font-size: 0.8rem;
+  color: #444;
 }
 
 .icon-btn {
@@ -105,4 +152,12 @@
 .edit-btn {
   fill: teal;
   justify-self: right;
+}
+
+.save-btn {
+  fill: teal;
+}
+
+.close-btn {
+  fill: coral;
 }

@@ -1,6 +1,7 @@
 import { TaskContainer } from "./taskContainer.js";
 import { TaskDisplay } from "./taskDisplay.js";
 import { createTestTasks } from "./testData.js";
+import { TaskForm } from "./taskForm.js";
 
 class TaskController {
   constructor(regenTestData) {
@@ -19,7 +20,7 @@ class TaskController {
 
     this.current = this.root;
     this.displayView = new TaskDisplay(this.#displayListeners);
-    this.formView = null; // NOT IMPLEMENTED YET
+    this.formView = new TaskForm(this.#formListeners);
 
     this.#refresh();
   }
@@ -38,7 +39,10 @@ class TaskController {
     goUp: () => this.#goUp(),
     removeSubtask: (idx) => this.#removeSubtask(idx),
     toggleComplete: (task) => this.#toggleComplete(task),
+    showEdit: (task) => this.#showEdit(task),
   };
+
+  #formListeners = {};
 
   #goDown(idx) {
     this.current = this.current.getSubtask(idx);
@@ -58,6 +62,10 @@ class TaskController {
   #toggleComplete(task) {
     task.markComplete();
     this.#refresh();
+  }
+
+  #showEdit(task) {
+    this.formView.showEditForm(task);
   }
 }
 

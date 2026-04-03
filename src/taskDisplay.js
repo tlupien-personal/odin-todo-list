@@ -1,5 +1,5 @@
-import { createIcon, createPriorityIcon } from "./util.js";
-import { isDate, format } from "date-fns";
+import { createPriorityIcon, createIconButton } from "./util.js";
+import { format } from "date-fns";
 
 const DATE_FORMAT = "MM/dd/yyyy";
 
@@ -10,28 +10,18 @@ class TaskDisplay {
     this.listeners = listeners;
   }
 
-  #createIconButton(iconName, className, callback) {
-    const button = document.createElement("div");
-    button.classList.add("icon-btn");
-    button.classList.add(className);
-    const icon = createIcon(iconName);
-    button.appendChild(icon);
-    button.addEventListener("click", callback);
-    return button;
-  }
-
   #createSubtaskCard(subtask, idx, className) {
     const taskCard = document.createElement("div");
     taskCard.classList.add(className);
     taskCard.setAttribute("data-child-index", idx);
 
-    const downButton = this.#createIconButton("down", "down-btn", (e) =>
+    const downButton = createIconButton("down", "down-btn", (e) =>
       this.listeners.goDown(
         e.currentTarget.parentElement.getAttribute("data-child-index"),
       ),
     );
 
-    const isComplete = this.#createIconButton(
+    const isComplete = createIconButton(
       subtask.isComplete ? "checked" : "box",
       "check-btn",
       (e) => this.listeners.toggleComplete(subtask),
@@ -45,7 +35,7 @@ class TaskDisplay {
 
     const priorityIcon = createPriorityIcon(subtask.priority);
 
-    const deleteButton = this.#createIconButton("delete", "delete-btn", (e) =>
+    const deleteButton = createIconButton("delete", "delete-btn", (e) =>
       this.listeners.removeSubtask(
         e.currentTarget.parentElement.getAttribute("data-child-index"),
       ),
@@ -72,13 +62,13 @@ class TaskDisplay {
     const taskDetail = document.createElement("div");
     taskDetail.classList.add("task-detail");
 
-    const upButton = this.#createIconButton("up", "up-btn", (e) =>
+    const upButton = createIconButton("up", "up-btn", (e) =>
       this.listeners.goUp(),
     );
     taskDetail.appendChild(upButton);
 
-    const editButton = this.#createIconButton("edit", "edit-btn", (e) =>
-      console.log("EDIT NOT YET IMPLEMENTED!"),
+    const editButton = createIconButton("edit", "edit-btn", (e) =>
+      this.listeners.showEdit(task),
     );
     taskDetail.appendChild(editButton);
 
@@ -89,7 +79,7 @@ class TaskDisplay {
     title.innerText = task.title;
     taskDetail.appendChild(title);
 
-    const isComplete = this.#createIconButton(
+    const isComplete = createIconButton(
       task.isComplete ? "checked" : "box",
       "check-btn",
       (e) => this.listeners.toggleComplete(task),
@@ -121,7 +111,7 @@ class TaskDisplay {
       const taskDetail = this.#createTaskDetail(task);
       this.body.appendChild(taskDetail);
       if (task.subtasks.length > 0) {
-        const subtaskHeading = document.createElement("h2");
+        const subtaskHeading = document.createElement("h3");
         subtaskHeading.innerText = "Subtasks";
         this.body.appendChild(subtaskHeading);
       }

@@ -22,8 +22,8 @@ const createIcon = function (iconName) {
 
 const createPriorityIcon = function (n) {
   const div = document.createElement("div");
-  div.classList.add("priority-icon")
-  div.classList.add(`priority-${n}`)
+  div.classList.add("priority-icon");
+  div.classList.add(`priority-${n}`);
   for (let i = 0; i < -1 * (n - 4); i++) {
     const icon = createIcon("priority");
     div.appendChild(icon);
@@ -31,4 +31,14 @@ const createPriorityIcon = function (n) {
   return div;
 };
 
-export { createIcon, createPriorityIcon };
+const createIconButton = function (iconName, className, callback) {
+  const button = document.createElement("div");
+  button.classList.add("icon-btn");
+  button.classList.add(className);
+  const icon = createIcon(iconName);
+  button.appendChild(icon);
+  button.addEventListener("click", callback);
+  return button;
+};
+
+export { createPriorityIcon, createIconButton };
