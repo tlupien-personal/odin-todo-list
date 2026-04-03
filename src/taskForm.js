@@ -93,13 +93,16 @@ class TaskForm {
   }
 
   #createControls(task) {
-    const saveButton = createIconButton("save", "save-btn", (e) =>
-      console.log("Call the save event listener we get from controller"),
-    );
-
-    const closeButton = createIconButton("close", "close-btn", (e) => {
-      console.log("Call close event listener!");
+    const saveButton = createIconButton("save", "save-btn", (e) => {
+      const form = document.querySelector("#task-form");
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+      this.listeners.save(data, task);
     });
+
+    const closeButton = createIconButton("close", "close-btn", (e) =>
+      this.listeners.close(),
+    );
 
     const controls = document.createElement("div");
     controls.classList.add("form-buttons");

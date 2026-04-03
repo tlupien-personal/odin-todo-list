@@ -22,6 +22,15 @@ class TaskNode {
     this.subtasks = [];
   }
 
+  update({ title, description, dueDate, priority, notes }) {
+    this.title = title;
+    this.description = description;
+    console.log(dueDate);
+    this.dueDate = isDate(dueDate) ? dueDate : new Date(dueDate);
+    this.priority = priority;
+    this.notes = notes;
+  }
+
   addSubtask(node) {
     node.parent = this.id;
     this.subtasks.push(node);
@@ -38,7 +47,9 @@ class TaskNode {
   }
 
   orderSubtasks() {
-    this.subtasks.sort((a, b) => compareAsc(a.dueDate, b.dueDate) || a.priority - b.priority);
+    this.subtasks.sort(
+      (a, b) => compareAsc(a.dueDate, b.dueDate) || a.priority - b.priority,
+    );
   }
 
   getParent(node) {

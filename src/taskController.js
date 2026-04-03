@@ -2,6 +2,7 @@ import { TaskContainer } from "./taskContainer.js";
 import { TaskDisplay } from "./taskDisplay.js";
 import { createTestTasks } from "./testData.js";
 import { TaskForm } from "./taskForm.js";
+import { TaskNode } from "./taskNode.js";
 
 class TaskController {
   constructor(regenTestData) {
@@ -42,7 +43,10 @@ class TaskController {
     showEdit: (task) => this.#showEdit(task),
   };
 
-  #formListeners = {};
+  #formListeners = {
+    close: () => this.#close(),
+    save: (data, task) => this.#save(data, task),
+  };
 
   #goDown(idx) {
     this.current = this.current.getSubtask(idx);
@@ -66,6 +70,20 @@ class TaskController {
 
   #showEdit(task) {
     this.formView.showEditForm(task);
+  }
+
+  #close() {
+    this.#refresh();
+  }
+
+  #save(data, task) {
+    if (!task) {
+      const newTask = new TaskNode(data);
+      this.current.addSubtask(newTask);
+    } else {
+      task.update(data);
+    }
+    this.#refresh();
   }
 }
 
