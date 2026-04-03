@@ -14,7 +14,7 @@ class TaskNode {
     this.id = id ?? crypto.randomUUID();
     this.title = title;
     this.description = description;
-    this.dueDate = isDate(dueDate) ? dueDate : new Date(dueDate);
+    this.dueDate = this.#validateDueDate(dueDate);
     this.priority = priority;
     this.isComplete = isComplete;
     this.notes = notes;
@@ -22,11 +22,22 @@ class TaskNode {
     this.subtasks = [];
   }
 
+  #validateDueDate(dueDate) {
+    if (!dueDate) {
+      return null;
+    } else if (isDate(dueDate)) {
+      return dueDate;
+    } else {
+      let dateString = dueDate.split("T")[0];
+      dateString += "T00:00";
+      return this.dueDate = new Date(dateString);
+    }
+  }
+
   update({ title, description, dueDate, priority, notes }) {
     this.title = title;
     this.description = description;
-    console.log(dueDate);
-    this.dueDate = isDate(dueDate) ? dueDate : new Date(dueDate);
+    this.dueDate = this.#validateDueDate(dueDate);
     this.priority = priority;
     this.notes = notes;
   }
