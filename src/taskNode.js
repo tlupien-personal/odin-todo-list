@@ -38,7 +38,7 @@ class TaskNode {
   }
 
   orderSubtasks() {
-    this.subtasks.sort((a, b) => compareAsc(a.dueDate, b.dueDate));
+    this.subtasks.sort((a, b) => compareAsc(a.dueDate, b.dueDate) || a.priority - b.priority);
   }
 
   getParent(node) {
@@ -52,6 +52,10 @@ class TaskNode {
     } else {
       return null;
     }
+  }
+
+  markComplete() {
+    this.isComplete = !this.isComplete;
   }
 }
 

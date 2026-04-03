@@ -26,8 +26,8 @@ class TaskDisplay {
     this.display();
   }
 
-  #toggleComplete() {
-    this.current.isComplete = !this.current.isComplete;
+  #toggleComplete(task) {
+    task.markComplete();
     this.display();
   }
 
@@ -52,6 +52,12 @@ class TaskDisplay {
       ),
     );
 
+    const isComplete = this.#createIconButton(
+      task.isComplete ? "checked" : "box",
+      "check-btn",
+      (e) => this.#toggleComplete(task),
+    );
+
     const title = document.createElement("p");
     title.innerText = task.title;
 
@@ -67,6 +73,7 @@ class TaskDisplay {
     );
 
     taskCard.appendChild(downButton);
+    taskCard.appendChild(isComplete);
     taskCard.appendChild(title);
     taskCard.appendChild(due);
     taskCard.appendChild(priorityIcon);
@@ -82,7 +89,7 @@ class TaskDisplay {
     });
   }
 
-  #createTaskDetail(task) {
+  #createTaskDetail() {
     const taskDetail = document.createElement("div");
     taskDetail.classList.add("task-detail");
 
@@ -91,30 +98,36 @@ class TaskDisplay {
     );
     taskDetail.appendChild(upButton);
 
-    const title = document.createElement("h1");
-    title.innerText = task.title;
+    const editButton = this.#createIconButton("edit", "edit-btn", (e) =>
+      console.log(e), // TODO: a lot...probably involving another module tbh
+    );
+    taskDetail.appendChild(editButton);
+
+    const priorityIcon = createPriorityIcon(this.current.priority);
+    taskDetail.appendChild(priorityIcon);
+
+    const title = document.createElement("h2");
+    title.innerText = this.current.title;
     taskDetail.appendChild(title);
 
     const isComplete = this.#createIconButton(
       this.current.isComplete ? "checked" : "box",
       "check-btn",
-      (e) => this.#toggleComplete(),
+      (e) => this.#toggleComplete(this.current),
     );
-    taskDetail.appendChild(isComplete)
+    taskDetail.appendChild(isComplete);
 
-    // for (const [k, v] of Object.entries(task)) {
-    //   if (["id", "parent", "subtasks", "title", "isComplete"].includes(k)) {
-    //     continue;
-    //   }
-    //   const p = document.createElement("p");
-    //   if (isDate(v)) {
-    //     p.innerText = format(v, DATE_FORMAT);
-    //   } else {
-    //     p.innerText = v;
-    //   }
+    const due = document.createElement("p");
+    due.innerText = `Due: ${format(this.current.dueDate, DATE_FORMAT)}`
+    taskDetail.appendChild(due);
 
-    //   taskDetail.appendChild(p);
-    // }
+    const desc = document.createElement("p");
+    desc.innerText = this.current.description;
+    taskDetail.appendChild(desc);
+
+    const notes = document.createElement("p");
+    notes.innerText = this.current.notes;
+    taskDetail.appendChild(notes);
 
     return taskDetail;
   }
