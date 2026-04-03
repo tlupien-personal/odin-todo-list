@@ -101,7 +101,7 @@ class TaskDisplay {
     return taskDetail;
   }
 
-  #createHeading (task, isRoot) {
+  #createHeading (isRoot) {
     const headingContainer = document.createElement("div");
     headingContainer.classList.add("heading-container")
     const addButton = createIconButton("add", "add-btn", (e) => this.listeners.showAdd())
@@ -129,7 +129,7 @@ class TaskDisplay {
       this.body.appendChild(taskDetail);
     }
 
-    const heading = this.#createHeading(task, isRoot);
+    const heading = this.#createHeading(isRoot);
     this.body.appendChild(heading);
 
     const subtaskContainer = document.createElement("div");

@@ -84,6 +84,11 @@ class TaskForm {
       "number",
       task.priority,
     );
+    priority.lastChild.addEventListener("input", (e) => {
+      let value = parseInt(e.currentTarget.value);
+      if (value > 3) e.currentTarget.value = 3;
+      if (value < 1) e.currentTarget.value = 1;
+    });
     specialRow.appendChild(priority);
     form.appendChild(specialRow);
 

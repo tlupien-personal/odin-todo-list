@@ -24,7 +24,7 @@ const createPriorityIcon = function (n) {
   const div = document.createElement("div");
   div.classList.add("priority-icon");
   div.classList.add(`priority-${n}`);
-  for (let i = 0; i < -1 * (n - 4); i++) {
+  for (let i = 0; i < n; i++) {
     const icon = createIcon("priority");
     div.appendChild(icon);
   }

@@ -15,7 +15,7 @@ class TaskNode {
     this.title = title;
     this.description = description;
     this.dueDate = this.#validateDueDate(dueDate);
-    this.priority = priority;
+    this.priority = this.#validatePriority(priority);
     this.isComplete = isComplete;
     this.notes = notes;
     this.parent = parent;
@@ -30,7 +30,17 @@ class TaskNode {
     } else {
       let dateString = dueDate.split("T")[0];
       dateString += "T00:00";
-      return this.dueDate = new Date(dateString);
+      return (this.dueDate = new Date(dateString));
+    }
+  }
+
+  #validatePriority(priority) {
+    if (priority > 3) {
+      return 3;
+    } else if (priority < 1) {
+      return 1;
+    } else {
+      return priority;
     }
   }
 
@@ -38,7 +48,7 @@ class TaskNode {
     this.title = title;
     this.description = description;
     this.dueDate = this.#validateDueDate(dueDate);
-    this.priority = priority;
+    this.priority = this.#validatePriority(priority);
     this.notes = notes;
   }
 
@@ -59,7 +69,7 @@ class TaskNode {
 
   orderSubtasks() {
     this.subtasks.sort(
-      (a, b) => compareAsc(a.dueDate, b.dueDate) || a.priority - b.priority,
+      (a, b) => compareAsc(a.dueDate, b.dueDate) || b.priority - a.priority,
     );
   }
 

@@ -1,19 +1,12 @@
 import { TaskContainer } from "./taskContainer.js";
 import { TaskDisplay } from "./taskDisplay.js";
-import { createTestTasks } from "./testData.js";
 import { TaskForm } from "./taskForm.js";
 import { TaskNode } from "./taskNode.js";
 
 class TaskController {
-  constructor(regenTestData) {
+  constructor() {
     this.taskContainer = new TaskContainer();
-
-    if (regenTestData) {
-      localStorage.setItem("taskContainer", null);
-      this.root = createTestTasks();
-    } else {
-      this.root = this.taskContainer.load();
-    }
+    this.root = this.taskContainer.load();
 
     document.addEventListener("visibilitychange", (e) => {
       this.taskContainer.save(this.root);
