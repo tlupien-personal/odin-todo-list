@@ -63,6 +63,7 @@
 }
 
 .task-form-container {
+  width: 100%;
   display: grid;
   grid-template-rows: 25px 1fr;
   grid-template-columns: 100%;

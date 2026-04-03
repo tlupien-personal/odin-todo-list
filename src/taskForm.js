@@ -51,6 +51,16 @@ class TaskForm {
   }
 
   #createForm(task) {
+    if (!task) {
+      task = {
+        title: "",
+        dueDate: Date.now(),
+        priority: 3,
+        description: "",
+        notes: "",
+      };
+    }
+
     const form = document.createElement("form");
     form.id = "task-form";
 
@@ -111,10 +121,7 @@ class TaskForm {
     return controls;
   }
 
-  showEditForm(task) {
-    const taskDetail = document.querySelector(".task-detail");
-    taskDetail.remove();
-
+  #createFormContainer(task) {
     const taskFormContainer = document.createElement("div");
     taskFormContainer.classList.add("task-form-container");
 
@@ -123,7 +130,22 @@ class TaskForm {
     taskFormContainer.appendChild(controls);
     taskFormContainer.appendChild(form);
 
+    return taskFormContainer;
+  }
+
+  showEditForm(task) {
+    const taskDetail = document.querySelector(".task-detail");
+    taskDetail.remove();
+    const taskFormContainer = this.#createFormContainer(task);
     this.body.prepend(taskFormContainer);
+  }
+
+  showAddForm() {
+    if (!document.querySelector(".subtask-container>.task-form-container")) {
+      const subtaskContainer = document.querySelector(".subtask-container");
+      const taskFormContainer = this.#createFormContainer();
+      subtaskContainer.prepend(taskFormContainer);
+    }
   }
 }
 

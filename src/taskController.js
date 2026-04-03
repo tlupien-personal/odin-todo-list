@@ -41,6 +41,7 @@ class TaskController {
     removeSubtask: (idx) => this.#removeSubtask(idx),
     toggleComplete: (task) => this.#toggleComplete(task),
     showEdit: (task) => this.#showEdit(task),
+    showAdd: (task) => this.#showAdd(task),
   };
 
   #formListeners = {
@@ -70,6 +71,10 @@ class TaskController {
 
   #showEdit(task) {
     this.formView.showEditForm(task);
+  }
+
+  #showAdd() {
+    this.formView.showAddForm();
   }
 
   #close() {
