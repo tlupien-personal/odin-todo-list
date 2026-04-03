@@ -6,29 +6,8 @@ const DATE_FORMAT = "MM/dd/yyyy";
 class TaskDisplay {
   body = document.querySelector("#task-display");
 
-  constructor(root) {
-    this.root = root;
-    this.current = root;
-  }
-
-  #goDown(idx) {
-    this.current = this.current.getSubtask(idx);
-    this.display();
-  }
-
-  #goUp() {
-    this.current = this.current.getParent(this.root);
-    this.display();
-  }
-
-  #removeSubtask(idx) {
-    this.current.removeSubtask(idx);
-    this.display();
-  }
-
-  #toggleComplete(task) {
-    task.markComplete();
-    this.display();
+  constructor(listeners) {
+    this.listeners = listeners;
   }
 
   #createIconButton(iconName, className, callback) {
@@ -41,33 +20,33 @@ class TaskDisplay {
     return button;
   }
 
-  #createTaskCard(task, idx, className) {
+  #createSubtaskCard(subtask, idx, className) {
     const taskCard = document.createElement("div");
     taskCard.classList.add(className);
     taskCard.setAttribute("data-child-index", idx);
 
     const downButton = this.#createIconButton("down", "down-btn", (e) =>
-      this.#goDown(
+      this.listeners.goDown(
         e.currentTarget.parentElement.getAttribute("data-child-index"),
       ),
     );
 
     const isComplete = this.#createIconButton(
-      task.isComplete ? "checked" : "box",
+      subtask.isComplete ? "checked" : "box",
       "check-btn",
-      (e) => this.#toggleComplete(task),
+      (e) => this.listeners.toggleComplete(subtask),
     );
 
     const title = document.createElement("p");
-    title.innerText = task.title;
+    title.innerText = subtask.title;
 
     const due = document.createElement("p");
-    due.innerText = format(task.dueDate, DATE_FORMAT);
+    due.innerText = format(subtask.dueDate, DATE_FORMAT);
 
-    const priorityIcon = createPriorityIcon(task.priority);
+    const priorityIcon = createPriorityIcon(subtask.priority);
 
     const deleteButton = this.#createIconButton("delete", "delete-btn", (e) =>
-      this.#removeSubtask(
+      this.listeners.removeSubtask(
         e.currentTarget.parentElement.getAttribute("data-child-index"),
       ),
     );
@@ -82,67 +61,66 @@ class TaskDisplay {
     return taskCard;
   }
 
-  #createSubtaskCards(container) {
-    this.current.subtasks.forEach((subtask, idx) => {
-      const taskCard = this.#createTaskCard(subtask, idx, "task-card");
+  #createSubtaskCards(container, task) {
+    task.subtasks.forEach((subtask, idx) => {
+      const taskCard = this.#createSubtaskCard(subtask, idx, "task-card");
       container.appendChild(taskCard);
     });
   }
 
-  #createTaskDetail() {
+  #createTaskDetail(task) {
     const taskDetail = document.createElement("div");
     taskDetail.classList.add("task-detail");
 
     const upButton = this.#createIconButton("up", "up-btn", (e) =>
-      this.#goUp(),
+      this.listeners.goUp(),
     );
     taskDetail.appendChild(upButton);
 
     const editButton = this.#createIconButton("edit", "edit-btn", (e) =>
-      console.log(e), // TODO: a lot...probably involving another module tbh
+      console.log("EDIT NOT YET IMPLEMENTED!"),
     );
     taskDetail.appendChild(editButton);
 
-    const priorityIcon = createPriorityIcon(this.current.priority);
+    const priorityIcon = createPriorityIcon(task.priority);
     taskDetail.appendChild(priorityIcon);
 
     const title = document.createElement("h2");
-    title.innerText = this.current.title;
+    title.innerText = task.title;
     taskDetail.appendChild(title);
 
     const isComplete = this.#createIconButton(
-      this.current.isComplete ? "checked" : "box",
+      task.isComplete ? "checked" : "box",
       "check-btn",
-      (e) => this.#toggleComplete(this.current),
+      (e) => this.listeners.toggleComplete(task),
     );
     taskDetail.appendChild(isComplete);
 
     const due = document.createElement("p");
-    due.innerText = `Due: ${format(this.current.dueDate, DATE_FORMAT)}`
+    due.innerText = `Due: ${format(task.dueDate, DATE_FORMAT)}`;
     taskDetail.appendChild(due);
 
     const desc = document.createElement("p");
-    desc.innerText = this.current.description;
+    desc.innerText = task.description;
     taskDetail.appendChild(desc);
 
     const notes = document.createElement("p");
-    notes.innerText = this.current.notes;
+    notes.innerText = task.notes;
     taskDetail.appendChild(notes);
 
     return taskDetail;
   }
 
-  display() {
+  display(task, isRoot) {
     this.body.innerText = "";
-    this.current.orderSubtasks();
-    if (this.current === this.root) {
+    if (isRoot) {
       const h = document.createElement("h1");
       h.innerText = "Projects";
       this.body.appendChild(h);
     } else {
-      const taskDetail = this.#createTaskDetail(this.current);
+      const taskDetail = this.#createTaskDetail(task);
       this.body.appendChild(taskDetail);
-      if (this.current.subtasks.length > 0) {
+      if (task.subtasks.length > 0) {
         const subtaskHeading = document.createElement("h2");
         subtaskHeading.innerText = "Subtasks";
         this.body.appendChild(subtaskHeading);
@@ -151,7 +129,7 @@ class TaskDisplay {
 
     const subtaskContainer = document.createElement("div");
     subtaskContainer.classList.add("subtask-container");
-    this.#createSubtaskCards(subtaskContainer);
+    this.#createSubtaskCards(subtaskContainer, task);
     this.body.appendChild(subtaskContainer);
   }
 }
