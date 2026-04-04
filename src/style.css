@@ -104,6 +104,11 @@ textarea {
   border: 1px solid black;
 }
 
+input[type="date"] {
+  display: block;
+  width: 100%;
+}
+
 textarea#notes {
   font-size: 0.8rem;
   color: #444;
