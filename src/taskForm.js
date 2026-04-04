@@ -3,9 +3,18 @@ import { createIconButton } from "./util.js";
 
 class TaskForm {
   body = document.querySelector("#task-display");
+  #block = false;
 
   constructor(listeners) {
     this.listeners = listeners;
+  }
+
+  block() {
+    this.#block = true;
+  }
+
+  unblock() {
+    this.#block = false;
   }
 
   #createLabel(id, prettyName) {
@@ -139,6 +148,9 @@ class TaskForm {
   }
 
   showEditForm(task) {
+    if (this.#block) {
+      return;
+    }
     const taskDetail = document.querySelector(".task-detail");
     taskDetail.remove();
     const taskFormContainer = this.#createFormContainer(task);
@@ -146,6 +158,9 @@ class TaskForm {
   }
 
   showAddForm() {
+    if (this.#block) {
+      return;
+    }
     if (!document.querySelector(".subtask-container>.task-form-container")) {
       const subtaskContainer = document.querySelector(".subtask-container");
       const taskFormContainer = this.#createFormContainer();

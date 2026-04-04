@@ -1,4 +1,5 @@
 import { TaskNode } from "./taskNode.js";
+import tutorial from "./tutorial.json" assert { type: "json" };
 
 const TASK_CONTAINER_STORAGE_NAME = "taskContainer";
 
@@ -29,9 +30,9 @@ class TaskContainer {
   }
 
   load() {
-    const data = JSON.parse(localStorage.getItem(TASK_CONTAINER_STORAGE_NAME));
-    if (data === null) {
-      return new TaskNode({title: "ROOT"});
+    let data = JSON.parse(localStorage.getItem(TASK_CONTAINER_STORAGE_NAME));
+    if (data === null || data.length === 1) {
+      data = tutorial;
     }
     const rootIndex = data.findIndex((node) => !node.parent);
     const root = new TaskNode(data[rootIndex]);
@@ -51,7 +52,7 @@ class TaskContainer {
       this.#toDataFormat(node);
     }
   }
-  
+
   save(root) {
     this.#resetBuffer();
     const rootData = JSON.parse(JSON.stringify(root));

@@ -26,6 +26,7 @@ class TaskController {
   #refresh() {
     this.current.orderSubtasks();
     this.displayView.display(this.current, this.#isRoot());
+    this.formView.unblock();
   }
 
   #displayListeners = {
@@ -64,10 +65,12 @@ class TaskController {
 
   #showEdit(task) {
     this.formView.showEditForm(task);
+    this.formView.block();
   }
 
   #showAdd() {
     this.formView.showAddForm();
+    this.formView.block();
   }
 
   #close() {
