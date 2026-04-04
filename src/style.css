@@ -1,0 +1,161 @@
+#task-display {
+  max-width: 500px;
+  margin: 5vh auto;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.subtask-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.task-card,
+.task-detail,
+.task-form-container {
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 2px 2px 4px #666;
+}
+
+.task-card {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 25px 25px 1fr 10ch 25px 25px;
+  padding: 5px;
+  align-items: center;
+  width: 100%;
+}
+
+.task-card > p {
+  font-size: 0.8rem;
+}
+
+.task-detail {
+  padding: 10px;
+  padding-bottom: 30px;
+  display: grid;
+  grid-template-columns: 25px 1fr;
+  grid-template-rows: repeat(auto-fit, minmax(25px, 1fr));
+  gap: 5px 20px;
+  align-items: center;
+}
+
+.task-detail > p,
+.task-detail > h2 {
+  grid-column: 2 / 3;
+  padding-right: 45px;
+  align-self: flex-end;
+}
+
+.task-detail > p:nth-last-child(3) {
+  font-weight: bold;
+}
+
+.task-detail > p:last-child {
+  color: #444;
+  font-size: 0.8rem;
+}
+
+.task-form-container {
+  width: 100%;
+  display: grid;
+  grid-template-rows: 25px 1fr;
+  grid-template-columns: 100%;
+  gap: 5px;
+  padding: 10px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+#task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0px 45px 30px 45px;
+}
+
+.form-chunk {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, calc(50% - 10px));
+  gap: 20px;
+}
+
+label {
+  font-weight: bold;
+}
+
+input,
+textarea {
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+textarea#notes {
+  font-size: 0.8rem;
+  color: #444;
+}
+
+.heading-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn {
+  width: 25px;
+  height: 25px;
+  opacity: 0.8;
+}
+
+.icon-btn:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.down-btn,
+.priority-1,
+.edit-btn,
+.save-btn,
+.add-btn {
+  fill: teal;
+}
+
+.up-btn,
+.priority-3,
+.close-btn {
+  fill: coral;
+}
+
+.priority-icon {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.priority-icon > * {
+  height: 25px;
+  flex-shrink: 0;
+}
+
+.delete-btn {
+  fill: #666;
+}
+
+.edit-btn {
+  justify-self: right;
+}
